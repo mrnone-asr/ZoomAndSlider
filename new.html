@@ -1,0 +1,119 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo|xZoom</title>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- xzoom plugin here -->
+  <script type="text/javascript" src="js/xzoom.js"></script>
+  <link rel="stylesheet" type="text/css" href="xzoom.css" media="all" />
+  <script src="js/foundation.js"></script>
+  <script src="js/setup.js"></script>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <section id="default">
+      <div class="row">
+        <div class="large-5 column">
+          <div class="xzoom-container">
+            <img class="xzoom" id="xzoom-default" src="img/preview/01_b_car.jpg"
+              xoriginal="img/original/01_b_car.jpg" />
+            <div class="slider-container">
+              <div class="xzoom-thumbs">
+                <a href="img/original/01_b_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/01_b_car.jpg"
+                    title="description / name"></a>
+                <a href="img/original/02_o_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/02_o_car.jpg"
+                    title="description / name"></a>
+                <a href="img/original/03_r_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/03_r_car.jpg"
+                    title="description / name"></a>
+                <a href="img/original/04_g_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/04_g_car.jpg"
+                    title="description / name"></a>
+                <a href="img/original/01_b_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/01_b_car.jpg"
+                    title="description / name"></a>
+                <a href="img/original/02_o_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/02_o_car.jpg"
+                    title="description / name"></a>
+                <a href="img/original/03_r_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/03_r_car.jpg"
+                    title="description / name"></a>
+                <a href="img/original/04_g_car.jpg"><img class="xzoom-gallery" width="80" src="img/preview/04_g_car.jpg"
+                    title="description / name"></a>
+              </div>
+              <div class="slider-arrow left">&lt;</div>
+              <div class="slider-arrow right">&gt;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const sliderWrapper = document.querySelector('.xzoom-thumbs');
+      const sliderItems = document.querySelectorAll('.xzoom-gallery');
+      const sliderArrowLeft = document.querySelector('.slider-arrow.left');
+      const sliderArrowRight = document.querySelector('.slider-arrow.right');
+
+      let currentIndex = 0;
+      let initialX = null;
+
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+
+      const startEvent = isTouchDevice ? 'touchstart' : 'mousedown';
+      const moveEvent = isTouchDevice ? 'touchmove' : 'mousemove';
+      const endEvent = isTouchDevice ? 'touchend' : 'mouseup';
+
+      sliderWrapper.addEventListener(startEvent, function (event) {
+        initialX = isTouchDevice ? event.touches[0].clientX : event.clientX;
+        event.preventDefault();
+      });
+
+      sliderWrapper.addEventListener(moveEvent, function (event) {
+        if (initialX === null) {
+          return;
+        }
+        const currentX = isTouchDevice ? event.touches[0].clientX : event.clientX;
+        const diffX = currentX - initialX;
+
+        if (diffX > 0 && currentIndex > 0) {
+          currentIndex--;
+          sliderWrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
+        } else if (diffX < 0 && currentIndex < sliderItems.length - 4) {
+          currentIndex++;
+          sliderWrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
+        }
+
+        initialX = currentX;
+        event.preventDefault();
+      });
+
+      sliderWrapper.addEventListener(endEvent, function () {
+        initialX = null;
+      });
+
+      sliderArrowRight.addEventListener('click', function () {
+        if (currentIndex < sliderItems.length - 4) {
+          currentIndex++;
+          sliderWrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
+        }
+      });
+
+      sliderArrowLeft.addEventListener('click', function () {
+        if (currentIndex > 0) {
+          currentIndex--;
+          sliderWrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
+        }
+      });
+    });
+
+
+
+  </script>
+</body>
+
+</html>
