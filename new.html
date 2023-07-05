@@ -70,11 +70,11 @@
 
       sliderWrapper.addEventListener(startEvent, function (event) {
         initialX = isTouchDevice ? event.touches[0].clientX : event.clientX;
-        event.preventDefault();
+        // Remove preventDefault to enable selecting thumbnails on mobile devices
       });
 
       sliderWrapper.addEventListener(moveEvent, function (event) {
-        if (initialX === null) {
+        if (initialX === null || !isTouchDevice) {
           return;
         }
         const currentX = isTouchDevice ? event.touches[0].clientX : event.clientX;
@@ -110,8 +110,6 @@
         }
       });
     });
-
-
 
   </script>
 </body>
